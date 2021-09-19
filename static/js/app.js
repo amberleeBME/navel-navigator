@@ -2,9 +2,7 @@
 
 // Read JSON file
 // const url="https://amberleebme.github.io/plotly-interactive-challenge/samples.json";
-const url=".samples.json";
-
-
+const url="samples.json";
 
 function init(){
   d3.json(url).then(function(data){
