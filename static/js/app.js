@@ -1,12 +1,12 @@
-var subjectIDs;
+// var subjectIDs;
 
 // Read JSON file
 const url="./samples.json";
 
-d3.json(url, function(json){
+d3.json(url, function(data){
   // subjectIDs = Object.values(json.names);
   // data = json.metadata;
-  console.log(json);
+  console.log(data);
 
 });
 
