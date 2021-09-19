@@ -1,7 +1,7 @@
 var subjectIDs;
 
 // Read JSON file
-const url="samples.json";
+const url="./samples.json";
 
 d3.json(url, function(json){
   // subjectIDs = Object.values(json.names);
