@@ -11,9 +11,10 @@ var specifiedID;
 var url;
 var shortURL = "samples.json";
 var longURL = "https://amberleebme.github.io/plotly-interactive-challenge/samples.json";
-var keys;
-var values;
 var demo;
+var traceData;
+var layout;
+
 ///////// Define Functions \\\\\\\\\\
 
 /* function getData(): retrieves the data from JSON file */
@@ -40,10 +41,9 @@ function getData(){
         metaData:metaData,
         samples:samples
       };
-      console.log("JSON Keys: ",Object.keys(data));
+      console.log("Data ",data);
       return data;
     }).then(function(){
-      
       demo = [
       metaData.map(item =>`ID: ${item.id}`),
       metaData.map(item =>`Ethnicity: ${item.ethnicity}`),
@@ -52,11 +52,9 @@ function getData(){
       metaData.map(item =>`Location: ${item.location}`),
       metaData.map(item =>`BB Type: ${item.bbtype}`),
       metaData.map(item =>`W Freq: ${item.wfreq}`)
-      ]
-      
-      
+      ] 
     });
-  }//End If undefined
+  }
 }
 
 function listIDs(idArray){
@@ -71,27 +69,62 @@ function listIDs(idArray){
   console.log(`Total SubjectIDs in Dropdown: ${idArray.length}`);
 }
 
-
 function optionChanged(varID){
-  d3.select(".demo-info")
-    .selectAll("h4")
-    .remove()
-  console.log("VarID: ",varID);
-  var obj=[];
+  specifiedID =varID;
   let ind = IDs.indexOf(varID);
-  console.log("Dem: ",demo);
-  demo.forEach(function(item){
-    obj.push(item[ind]);
-  });
-  console.log("Demographic Data: ",obj);
-  d3.select(".demo-info")
-    .selectAll('h4')
-    .data(obj)
-    .enter()
-    .append('h4')
-    .text(function(d){
-      return d;
+
+  // Demographics
+  {
+    d3.select(".demo-info")
+      .selectAll("h4")
+      .remove()
+    console.log("VarID: ",varID);
+    var obj=[];
+    demo.forEach(function(item){
+      obj.push(item[ind]);
     });
+    console.log("Demographic Data: ",obj);
+    d3.select(".demo-info")
+      .selectAll('h4')
+      .data(obj)
+      .enter()
+      .append('h4')
+      .text(function(d){
+        return d;
+      });
+  }
+  // Bar Graph
+  {
+    var each;
+    var sample = [];
+    var barData = samples[ind];
+    for (each =0; each < barData.sample_values.length; each++){
+      var entry;
+      entry = {
+        id: `OTU ${barData.otu_ids[each]}`,
+        label: barData.otu_labels[each],
+        value: barData.sample_values[each]
+      }
+      sample.push(entry);
+    }
+    var sortedSample = sample.sort((a,b) => b.value - a.value);
+    var slicedSample = sortedSample.slice(0,10);
+    var reversedData = slicedSample.reverse();
+    console.log(reversedData);
+    layout = {
+      title: `Top Ten OTUs in Subject ${specifiedID}`
+    };
+    let trace1 = {
+      x: reversedData.map(object => object.value),
+      y: reversedData.map(object => object.id),
+      text: reversedData.map(object => object.label),
+      name: "OTUs",
+      type: "bar",
+      orientation: "h"
+    };
+    traceData = [trace1];
+    Plotly.newPlot("bar",traceData, layout);
+  }
 }
 
 ///////// Execute Functions \\\\\\\\\\
@@ -103,10 +136,9 @@ getData().then(function(){
 }).then(function(){
   console.log("***Initial Data Load Complete***");
 });
-// getData().then(function(){
-//   console.log("Data: ", IDs);
-// });
   d3.select("#selDataset").on("change", function(){
     console.log("Changed to: ",this.value);
     optionChanged(this.value);
   });
+  
+  
