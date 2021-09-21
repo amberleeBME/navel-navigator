@@ -75,28 +75,46 @@ function optionChanged(varID){
 
   // Demographics
   {
-    d3.select(".demo-info")
-      .selectAll("h4")
-      .remove()
-    console.log("VarID: ",varID);
-    var obj=[];
-    demo.forEach(function(item){
-      obj.push(item[ind]);
+    
+    d3.select("#demo-info").selectAll("h4").remove();
+    var col;
+
+    console.log("DEMO: ",demo);
+    demo.forEach((item,i)=>{
+      var text = item[ind];
+      if(i<3){
+        col = ".demo-col-first";
+      } else if(i<5){
+        col = ".demo-col-second";
+      }else{
+        col = ".demo-col-third";
+      }
+      d3.select(col)
+          .append("h4")
+          .text(text);
     });
-    console.log("Demographic Data: ",obj);
-    d3.select(".demo-info")
-      .selectAll('h4')
-      .data(obj)
-      .enter()
-      .append('h4')
-      .text(function(d){
-        return d;
-      });
+    // d3.select(".demo-info")
+    //   .selectAll("h4")
+    //   .remove();
+    // console.log("VarID: ",varID);
+    // var obj=[];
+    // demo.forEach(function(item){
+    //   obj.push(item[ind]);
+    // });
+    // console.log("Demographic Data: ",obj);
+    // d3.select(".demo-info")
+    //   .selectAll('h4')
+    //   .data(obj)
+    //   .enter()
+    //   .append('h4')
+    //   .text(function(d){
+    //     return d;
+    //   });
   }
   // Bar Graph
   {
-    var each;
     var sample = [];
+    var each;
     var barData = samples[ind];
     for (each =0; each < barData.sample_values.length; each++){
       var entry;
@@ -124,6 +142,41 @@ function optionChanged(varID){
     };
     traceData = [trace1];
     Plotly.newPlot("bar",traceData, layout);
+  }
+  // Bubble Chart
+  {
+    var desired_maximum_marker_size = 80;
+    var sample2 = [];
+    var each;
+    var bubbleData = samples[ind];
+    for (each =0; each < bubbleData.sample_values.length; each++){
+      var entry;
+      entry = {
+        id: bubbleData.otu_ids[each],
+        label: bubbleData.otu_labels[each],
+        value: bubbleData.sample_values[each]
+      }
+      sample2.push(entry);
+    }
+    var size = sample2.map(object => object.value);
+    console.log(sample2.map(object => object.id));
+    let trace2 = {
+      x: sample2.map(object => object.id),
+      y: sample2.map(object => object.value),
+      text:sample2.map(object => object.label),
+      mode: 'markers',
+      marker:{
+        color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+        size: size,
+        sizeref: 2.0 * Math.max(...size) / (desired_maximum_marker_size**2),
+        sizemode: 'area'
+      }
+    }
+    traceData = [trace2];
+    let layout2 = {
+      title: 'Bubble Chart',
+    }
+    Plotly.newPlot("bubble",traceData,layout2);
   }
 }
 
