@@ -13,7 +13,8 @@ var shortURL = "samples.json";
 var longURL = "https://amberleebme.github.io/plotly-interactive-challenge/samples.json";
 var demo;
 var traceData;
-var layout;
+var colorscale = "Blackbody";
+var config = {responsive: true};
 
 ///////// Define Functions \\\\\\\\\\
 
@@ -50,8 +51,8 @@ function getData(){
       metaData.map(item =>`Gender: ${item.gender}`),
       metaData.map(item =>`Age: ${item.age}`),
       metaData.map(item =>`Location: ${item.location}`),
-      metaData.map(item =>`BB Type: ${item.bbtype}`),
-      metaData.map(item =>`W Freq: ${item.wfreq}`)
+      metaData.map(item =>`Belly Button Type: ${item.bbtype}`),
+      metaData.map(item =>`Weekly Wash Freq: ${item.wfreq}`)
       ] 
     });
   }
@@ -75,7 +76,6 @@ function optionChanged(varID){
 
   // Demographics
   {
-    
     d3.select("#demo-info").selectAll("h4").remove();
     var col;
 
@@ -93,35 +93,21 @@ function optionChanged(varID){
           .append("h4")
           .text(text);
     });
-    // d3.select(".demo-info")
-    //   .selectAll("h4")
-    //   .remove();
-    // console.log("VarID: ",varID);
-    // var obj=[];
-    // demo.forEach(function(item){
-    //   obj.push(item[ind]);
-    // });
-    // console.log("Demographic Data: ",obj);
-    // d3.select(".demo-info")
-    //   .selectAll('h4')
-    //   .data(obj)
-    //   .enter()
-    //   .append('h4')
-    //   .text(function(d){
-    //     return d;
-    //   });
+
   }
   // Bar Graph
   {
     var sample = [];
     var each;
     var barData = samples[ind];
-    for (each =0; each < barData.sample_values.length; each++){
+    var layoutBar;
+    for (each = 0; each < barData.sample_values.length; each++){
       var entry;
       entry = {
         id: `OTU ${barData.otu_ids[each]}`,
         label: barData.otu_labels[each],
-        value: barData.sample_values[each]
+        value: barData.sample_values[each],
+        intID: barData.otu_ids[each]
       }
       sample.push(entry);
     }
@@ -129,23 +115,37 @@ function optionChanged(varID){
     var slicedSample = sortedSample.slice(0,10);
     var reversedData = slicedSample.reverse();
     console.log(reversedData);
-    layout = {
-      title: `Top Ten OTUs in Subject ${specifiedID}`
+    layoutBar = {
+      title: `Top OTUs Found in Subject ${specifiedID}`,
+      margin: {
+        t: 100,
+        pad: 5
+      }
     };
+    let color = reversedData.map(object => object.intID);
+    console.log(color);
     let trace1 = {
       x: reversedData.map(object => object.value),
       y: reversedData.map(object => object.id),
-      text: reversedData.map(object => object.label),
+      text: reversedData.map(object => object.label.split(';').join("<br>")),
       name: "OTUs",
+      
+      marker: {
+        color:"#bb4b4a",
+        line: {
+          width:1,
+          color: "#E0E0E0"
+        }
+      },
       type: "bar",
       orientation: "h"
     };
     traceData = [trace1];
-    Plotly.newPlot("bar",traceData, layout);
+    Plotly.newPlot("bar",traceData, layoutBar, config);
   }
   // Bubble Chart
   {
-    var desired_maximum_marker_size = 80;
+    var desired_maximum_marker_size = 100;
     var sample2 = [];
     var each;
     var bubbleData = samples[ind];
@@ -163,20 +163,67 @@ function optionChanged(varID){
     let trace2 = {
       x: sample2.map(object => object.id),
       y: sample2.map(object => object.value),
-      text:sample2.map(object => object.label),
+      text:sample2.map(object => object.label.split(';').join("<br>")),
       mode: 'markers',
       marker:{
-        color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+        color: sample2.map(d=>d.id),
+        colorscale: colorscale,
         size: size,
-        sizeref: 2.0 * Math.max(...size) / (desired_maximum_marker_size**2),
-        sizemode: 'area'
-      }
+        sizeref: 2 * Math.max(...size) / (desired_maximum_marker_size**2),
+        sizemode: 'area',
+        line: {
+          width:1,
+          color: "#E0E0E0"
+        }
+      },
+      type: 'scatter'
     }
     traceData = [trace2];
-    let layout2 = {
-      title: 'Bubble Chart',
-    }
-    Plotly.newPlot("bubble",traceData,layout2);
+    let layoutBubble = {
+      title: `All OTUs Found in Subject ${specifiedID}`,
+      xaxis: {
+        title: {
+          text: 'OTU ID #',
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Relative Abundance of OTU',
+        }
+      }
+    };
+    
+    Plotly.newPlot("bubble",traceData,layoutBubble, config);
+  }
+  // Gauge Chart
+  {
+    var data = [
+      {
+        domain: { x: [0, 1], y: [0, 1] },
+        value: metaData[ind].wfreq,
+        title: { text: `Weekly Wash Frequency of Subject ${specifiedID}`},
+        type: "indicator",
+        mode: "gauge+number",
+        gauge: {
+          axis: { range: [null, 9] },
+          // steps: [
+          //   { range: [0, 250], color: "lightgray" },
+          //   { range: [250, 400], color: "gray" }
+          // ]
+        }
+      }
+    ];
+    
+    var layoutGauge = {
+      margin: {
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0,
+        pad: 5
+      }
+    };
+    Plotly.newPlot('gauge', data, layoutGauge, config);
   }
 }
 
@@ -189,9 +236,9 @@ getData().then(function(){
 }).then(function(){
   console.log("***Initial Data Load Complete***");
 });
-  d3.select("#selDataset").on("change", function(){
-    console.log("Changed to: ",this.value);
-    optionChanged(this.value);
-  });
+d3.select("#selDataset").on("change", function(){
+  console.log("Changed to: ",this.value);
+  optionChanged(this.value);
+});
   
   
