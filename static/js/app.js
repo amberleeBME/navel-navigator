@@ -117,9 +117,16 @@ function optionChanged(varID){
     var reversedData = slicedSample.reverse();
     console.log(reversedData);
     layoutBar = {
-      title: `Top OTUs Found in Subject ${specifiedID}`,
+      // title: `Top OTUs Found`,
+      yaxis: {
+        automargin: true,
+        title: {
+          text: 'Top OTUs Found',
+          standoff: 20
+        }
+      },
       margin: {
-        t: 100,
+        t: 40,
         pad: 5
       }
     };
@@ -132,11 +139,8 @@ function optionChanged(varID){
       name: "OTUs",
       
       marker: {
-        color:"#bb4b4a",
-        line: {
-          width:1,
-          color: "#E0E0E0"
-        }
+        color: 
+        `#4d4d4d`,
       },
       type: "bar",
       orientation: "h"
@@ -202,12 +206,20 @@ function optionChanged(varID){
       {
         domain: { x: [0, 1], y: [0, 1] },
         value: metaData[ind].wfreq,
-        title: { text: `Weekly Wash Frequency of Subject ${specifiedID}`},
+        title: { text: `Weekly Wash Frequency`},
         type: "indicator",
         mode: "gauge+number",
         gauge: {
-          axis: { range: [null, 9] },
+          axis: { 
+            range: [null, 9],
+            tick0: 0,
+            dtick: 1
+          },
+          bar: {
+            color: "#a0c8ff",
+          }
         }
+        
       }
     ];
     
@@ -216,7 +228,7 @@ function optionChanged(varID){
         l: 15,
         r: 15,
         b: 15,
-        t: 5,
+        t: 0,
         pad: 10
       }
     };
