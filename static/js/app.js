@@ -1,4 +1,4 @@
-/* Declaring strict mode to help write cleaner code */
+/* Declaring strict mode to write cleaner code */
 "use strict";
 
 ///////// Declare Global Variables \\\\\\\\\\
@@ -58,6 +58,7 @@ function getData(){
   }
 }
 
+/* function listIDs(idArray): populates dropdown with Test Subject IDs */
 function listIDs(idArray){
   d3.select('select')
       .selectAll('option')
@@ -69,7 +70,7 @@ function listIDs(idArray){
       });
   console.log(`Total SubjectIDs in Dropdown: ${idArray.length}`);
 }
-
+/* function optionChanged(varID): creates/updates visualizations based on selected Test Subject ID */
 function optionChanged(varID){
   specifiedID =varID;
   let ind = IDs.indexOf(varID);
@@ -206,21 +207,17 @@ function optionChanged(varID){
         mode: "gauge+number",
         gauge: {
           axis: { range: [null, 9] },
-          // steps: [
-          //   { range: [0, 250], color: "lightgray" },
-          //   { range: [250, 400], color: "gray" }
-          // ]
         }
       }
     ];
     
     var layoutGauge = {
       margin: {
-        l: 0,
-        r: 0,
-        b: 0,
-        t: 0,
-        pad: 5
+        l: 15,
+        r: 15,
+        b: 15,
+        t: 5,
+        pad: 10
       }
     };
     Plotly.newPlot('gauge', data, layoutGauge, config);
