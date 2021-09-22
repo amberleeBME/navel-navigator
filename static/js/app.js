@@ -46,13 +46,20 @@ function getData(){
       return data;
     }).then(function(){
       demo = [
-      metaData.map(item =>`ID: ${item.id}`),
-      metaData.map(item =>`Ethnicity: ${item.ethnicity}`),
-      metaData.map(item =>`Gender: ${item.gender}`),
-      metaData.map(item =>`Age: ${item.age}`),
-      metaData.map(item =>`Location: ${item.location}`),
-      metaData.map(item =>`Belly Button Type: ${item.bbtype}`),
-      metaData.map(item =>`Weekly Wash Freq: ${item.wfreq}`)
+        metaData.map(item =>`${item.id}`),
+        metaData.map(item =>`${item.ethnicity}`),
+        metaData.map(item =>`${item.gender}`),
+        metaData.map(item =>`${item.age}`),
+        metaData.map(item =>`${item.location}`),
+        metaData.map(item =>`${item.bbtype}`),
+        metaData.map(item =>`${item.wfreq}`)
+      // metaData.map(item =>`ID:${item.id}`),
+      // metaData.map(item =>`Ethnicity: ${item.ethnicity}`),
+      // metaData.map(item =>`Gender: ${item.gender}`),
+      // metaData.map(item =>`Age: ${item.age}`),
+      // metaData.map(item =>`Location: ${item.location}`),
+      // metaData.map(item =>`Belly Button Type: ${item.bbtype}`),
+      // metaData.map(item =>`Wash Freq: ${item.wfreq}`)
       ] 
     });
   }
@@ -77,21 +84,18 @@ function optionChanged(varID){
 
   // Demographics
   {
-    d3.select("#demo-info").selectAll("h4").remove();
+    d3.select("#demo-info").selectAll("span").remove();
     var col;
 
     console.log("DEMO: ",demo);
     demo.forEach((item,i)=>{
       var text = item[ind];
-      if(i<3){
-        col = ".demo-col-first";
-      } else if(i<5){
-        col = ".demo-col-second";
-      }else{
-        col = ".demo-col-third";
-      }
+      
+      col = `.demo-col-${i+1}`;
+      console.log(col);
       d3.select(col)
-          .append("h4")
+          .selectAll("p")
+          .append("span")
           .text(text);
     });
 
@@ -117,7 +121,6 @@ function optionChanged(varID){
     var reversedData = slicedSample.reverse();
     console.log(reversedData);
     layoutBar = {
-      // title: `Top OTUs Found`,
       yaxis: {
         automargin: true,
         title: {
@@ -185,7 +188,7 @@ function optionChanged(varID){
     }
     traceData = [trace2];
     let layoutBubble = {
-      title: `All OTUs Found in Subject ${specifiedID}`,
+      title: `All OTUs Found in Participant ${specifiedID}`,
       xaxis: {
         title: {
           text: 'OTU ID #',

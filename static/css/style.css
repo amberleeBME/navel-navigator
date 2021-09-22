@@ -1,3 +1,74 @@
-#selDataset{
-    font-size:larger;
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+.chooser{
+    top: 0%;
+    padding-left: 0px;
+    font-size: 20px;
 }
+#selDataset{
+    font-size:16px;
+}
+#info-btn{
+    font-size: 24px;
+    float: right;
+
+}
+.chooser a {
+    position: fixed;
+    visibility: hidden;
+}
+.vl {
+    border-left: 2px solid #E0E0E0;
+  }
+
+.vl a {
+    position: relative;
+    visibility: visible;
+}
+.demo-title{
+    font-size: 20px;
+}
+.demo-col-1{
+    margin-left: 15px;
+}
+.demo-col-6{
+    margin-left: 15px;
+}
+#demo-info div{
+    padding-left: 0px;
+    /* margin-left: 20px; */
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#demo-info span{
+    font-weight: normal;
+}
+@media (max-width: 767.98px) { 
+    .vl{
+        border-left: 0px;
+        padding-left: 0px;
+    }
+    .chooser a {
+        position: relative;
+        visibility:visible;
+    }
+    
+    .vl a { 
+        position: fixed;
+        visibility:hidden;
+    }
+    .demo-col-1{
+        margin-left: 0px;
+    }
+    .demo-col-6{
+        margin-left: 0px;
+    }
+    #demo-info div{
+        padding-left: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+ }
+ 
