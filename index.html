@@ -3,14 +3,18 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
   <link rel="stylesheet" href="static/css/style.css">
   
   <title>Navel Navigator</title>
+  
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 
 <body>
@@ -19,23 +23,18 @@
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
         <h1>Navel Navigator</h1>
-        <p>Use the interactive charts below to explore the <a href="http://robdunnlab.com/projects/belly-button-biodiversity/">Belly Button Biodiversity</a> dataset</p>
+        <p>Explore the <a href="http://robdunnlab.com/projects/belly-button-biodiversity/">Belly Button Biodiversity</a> dataset using the interactive charts below</p>
+        <a class="github-button" href="https://github.com/amberleeBME/plotly-interactive-challenge" data-color-scheme="no-preference: dark_high_contrast; light: dark_high_contrast; dark: dark_high_contrast;" data-size="large" data-show-count="true" aria-label="Star amberleeBME/plotly-interactive-challenge on GitHub">Star</a>
       </div>
     </div>
     <div class="row sticky-top">
       <div class="col-md-12 ">
         <div class="row well">
-          <!-- <div class="row"> -->
             <div class="col-md-2 chooser">
-                <a tabindex="0" id="info-btn" class="" href=""><i class="bi bi-info-circle"></i></a>
                 <span class="visually-hidden">Info Button</span>
-              
               <p>Participant <select id="selDataset" class="form-select form-select-lg mb-3" ></select></p>
             </div>
-          <!-- </div> -->
-          <!-- <div class="row"> -->
             <div class="col-md-10 vl">
-              <a id="info-btn" class="" href=""><i class="bi bi-info-circle "></i></a>
               <p class = "demo-title">Demographic Info </p>
               <div id="demo-info" class="row">
                 <div class="col-sm demo-col-1"><p>ID: </p></div>
@@ -43,16 +42,14 @@
                 <div class="col-sm demo-col-3"><p>Gender: </p></div>
                 <div class="col-sm demo-col-4"><p>Age: </p></div>
                 <div class="col-sm-3 demo-col-5"><p>Location: </p></div>
-                <div class="w-100 d-none d-lg-block"></div>
-                <div class="col-sm demo-col-6"><p>BBType: </p></div>
-                <div class="col-sm-3 demo-col-7"><p>WFreq: </p></div>
+                <div class="w-100 d-none d-sm-block"></div>
+                <div class="col-sm demo-col-6"><p data-bs-toggle="tooltip" title="Belly Button Type">BBType: </p></div>
+                <div class="col-sm-3 demo-col-7"><p data-bs-toggle="tooltip" title="Weekly Wash Frequency">WFreq: </p></div>
                 <div class="col-sm"></div>
                 <div class="col-sm"></div>
                 <div class="col-sm-3"></div>
-                
               </div>
             </div>
-          <!-- </div> -->
         </div>
       </div>
     </div>
@@ -71,11 +68,11 @@
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>  
   <script src="static/js/app.js"></script>
-  <!-- <script src="./static/js/bonus.js"></script> -->
   
 </body>
 
