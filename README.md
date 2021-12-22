@@ -1,4 +1,4 @@
-# [Navel Navigator](https://amberleebme.github.io/plotly-interactive-challenge/): An Interactive Dashboard
+# [Navel Navigator](https://amberleebme.github.io/navel-navigator): An Interactive Dashboard
 
 ## Overview
 The [Navel Navigator](https://amberleebme.github.io/navel-navigator) is an interactive dashboard that allows users to explore the microbial diversity of human navels.
